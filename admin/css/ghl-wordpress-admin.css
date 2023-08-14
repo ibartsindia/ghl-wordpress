@@ -1,0 +1,35 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+ 
+ #ibs-ghl-forms input[type=checkbox] {
+     margin-left: 0;
+ }
+ 
+ #ibs-ghl-forms .widefat .check-column {
+     padding: 8px 10px;
+ }
+ 
+ .ibs_ghl_form {
+     width: 100%;
+     display: flex;
+ }
+ 
+ .ibs_ghl_form_title {
+    width: 75%;
+ }
+ 
+ .ibs_ghl_form_title input {
+    width: 98%;
+    height: 50px;
+    margin: 30px 0px;
+ }
+ 
+ .ibs_ghl_form_action {
+    margin: 30px 0px;
+ }
+ 
+ .ibs_ghl_form_action {
+    width: 25%;
+ }
