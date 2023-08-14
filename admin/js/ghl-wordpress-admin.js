@@ -30,7 +30,10 @@
 	 */
 	 $( window ).load(function() {
 	    const fbTemplate = document.getElementById('build-wrap');
-        window.formBuilder = $(fbTemplate).formBuilder();
+		var options = {
+			disableFields: ['autocomplete','checkbox-group','date','file','number','radio-group','select','starRating','text']
+		  };
+        window.formBuilder = $(fbTemplate).formBuilder(options);
 	 });
 	 
 
