@@ -1,0 +1,80 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+ 
+ .parent-element {
+   position: relative;
+   padding: 20px;
+}
+
+.hover-button1 {
+   position: absolute;
+   top: 50%;
+   left: 11px;
+   transform: translate(-50%, -50%);
+   color: #3498db;
+   background: transparent;
+   border: none;
+   padding: 10px 20px;
+   cursor: pointer;
+   opacity: 0;
+   transition: opacity 0.3s ease-in-out;
+}
+.hover-button2 {
+   
+   position: absolute;
+   top: 50%;
+   left: 10%;
+   transform: translate(-50%, -50%);
+   color: #db7434;
+   background: transparent;
+   border: none;
+   padding: 10px 20px;
+   cursor: pointer;
+   opacity: 0;
+   transition: opacity 0.3s ease-in-out;
+}
+
+.parent-element:hover .hover-button1 {
+   opacity: 1;
+}
+.parent-element:hover .hover-button2 {
+   opacity: 1;
+}
+
+
+
+
+
+
+ #ibs-ghl-forms input[type=checkbox] {
+     margin-left: 0;
+ }
+ 
+ #ibs-ghl-forms .widefat .check-column {
+     padding: 8px 10px;
+ }
+ 
+ .ibs_ghl_form {
+     width: 100%;
+     display: flex;
+ }
+ 
+ .ibs_ghl_form_title {
+    width: 75%;
+ }
+ 
+ .ibs_ghl_form_title input {
+    width: 98%;
+    height: 50px;
+    margin: 30px 0px;
+ }
+ 
+ .ibs_ghl_form_action {
+    margin: 30px 0px;
+ }
+ 
+ .ibs_ghl_form_action {
+    width: 25%;
+ }
