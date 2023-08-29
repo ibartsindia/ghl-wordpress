@@ -137,11 +137,12 @@ class Ghl_Wordpress_Query {
         
     }
     
-    public function ibs_ghl_get_all_forms() {
+    //sql for getting all the forms data as per is_trash attribute
+    public function ibs_ghl_get_all_forms($trash) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form';
         
-        $data = $wpdb->get_results("SELECT * FROM $table_name");
+        $data = $wpdb->get_results("SELECT * FROM $table_name where is_trash=$trash");
         $forms = [];
         
         // Check if there are any records
@@ -162,6 +163,50 @@ class Ghl_Wordpress_Query {
         
     }
 
+    //sql for counting the form as per the is_trash option
+    public function ibs_ghl_count_form($trash){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form';
+        
+        $count = $wpdb->get_results("SELECT COUNT(ID) FROM $table_name where is_trash=$trash");
+        return $count[0]->{'COUNT(ID)'};
+
+    }
+
+    //changing the form is_trash from 1 to 0 using sql
+    public function ibs_restore_form($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form';
+        
+        $data_to_update = array(
+            'is_trash' => '0'
+        );
+            
+        $where_condition = array(
+        'id' => $id 
+        );
+            
+        $wpdb->update($table_name, $data_to_update, $where_condition);
+        
+        // Check if the update was successful
+        if ($wpdb->last_error === '') {
+            return ['status' => 200];
+        }
+    }
+
+    //deleting the form permanently from the database
+    public function ibs_delete_form_permanently($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form';
+       
+        $wpdb->delete(
+            $table_name,
+            array('id' => $id),
+            
+        );
+    }
+
+    // changing the is_trash from 0 to 1
     public function ibs_trash($id){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form';

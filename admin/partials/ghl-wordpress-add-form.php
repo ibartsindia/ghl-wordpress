@@ -15,7 +15,7 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap" id="ibs-ghl-forms">
-    <h1 class="wp-heading-inline">Add Form</h1>
+    <h1 class="wp-heading-inline" style="font-family:inherit;font-weight:500;">Add Form</h1>
     <hr class="wp-header-end">
     <form id="ibs-ghl-add-form" method="post">
         <div class="row ibs_ghl_form">
@@ -24,9 +24,9 @@
                 <input type="hidden" name="form_id" value="<?php echo $id; ?>" />
             </div>
             <div class="ibs_ghl_form_action">
-                <input type="submit" class="button button-primary" value="Save Form" />
+                <input type="submit" class="button button-primary" value="Save Form" style="margin-left:10px;margin-bottom:7px;"/>
                 <br/>
-                <input type="checkbox" name="status" <?php if($is_active == 1) echo 'checked'; ?> /> Save as Draft
+                <input style="margin-left:10px;" type="checkbox" name="status" <?php if($is_active == 1) echo 'checked'; ?> /> Save as Draft
             </div>
         </div>
     </form>
@@ -36,6 +36,6 @@
 <script>
     setTimeout(function(){
         formBuilder.actions.setData('<?php echo $form_meta['display_meta']; ?>');
-    }, 2000);
+    }, 1000);
 </script>
     

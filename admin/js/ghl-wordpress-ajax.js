@@ -286,6 +286,7 @@
                 success: function(response) {
                     if (response[0].status === 201) {
                         window.location.href = response[0].url;
+                        console.log(response[0].url);
                     }
                 },
                 complete: function() {
@@ -309,7 +310,6 @@
                 success: function(response) {
                     if (response[0].status === 201) {
                         window.location.href = response[0].url;
-                        console.log(response[0].url);
                     }
                 },
                 complete: function() {
@@ -319,6 +319,144 @@
             
         });
 
+        //handle settings
+        $("body").on('click', '#settings-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_form_settings',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+        //handle preview
+        $("body").on('click', '#preview-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_form_preview',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+        //handle All
+        $("body").on('click', '#All-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_all_form',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+        //handle Trash Preview
+        $("body").on('click', '#Trash-preview-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_trash_form_preview',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+        //handle delete form permanently 
+        $("body").on('click', '#delete-permanently-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_delete_permanently',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+         
+        //handle restore form from trash 
+         $("body").on('click', '#restore-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_restore_form',
+                    data: $(this).attr("data-id"),
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
 
         // Function to change serialize array into json
         function formSerializeArrToJson(formSerializeArr){

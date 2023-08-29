@@ -1,3 +1,4 @@
+
 (function( $ ) {
 	'use strict';
 
@@ -28,13 +29,25 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
+	
 	 $( window ).load(function() {
 	    const fbTemplate = document.getElementById('build-wrap');
+		
 		var options = {
-			disableFields: ['autocomplete','checkbox-group','date','file','number','radio-group','select','starRating','text']
+			disableFields: ['autocomplete','checkbox-group','date','file','number','radio-group','select','starRating'],
+			fieldRemoveWarn: true,
 		  };
         window.formBuilder = $(fbTemplate).formBuilder(options);
+		// // const ul_id=document.getElementById('frmb-1692171216809-control-box');
+		// // ul_id.style.maxWidth="50%";
+		// var fbEditor = document.getElementById('build-wrap');
+		// var formBuilder = $(fbEditor).formBuilder();
+		// document.getElementById('getJSON').addEventListener('click', function() {
+		// 	alert(formBuilder.actions.getData('json', true));
+		// });
+			
+		  
 	 });
-	 
+	
 
 })( jQuery );

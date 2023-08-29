@@ -165,12 +165,40 @@ class Ghl_Wordpress {
         $this->loader->add_action( 'wp_ajax_ibs_ghl_save_form', $plugin_admin, 'ibs_ghl_save_form_callback' );
         $this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_save_form', $plugin_admin, 'ibs_ghl_save_form_callback' );
 
+		//action hook for sending the form to the trash
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_trash_form', $plugin_admin, 'ibs_ghl_trash_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_trash_form', $plugin_admin, 'ibs_ghl_trash_form_callback' );
 
+		//action hook for opening the edit option of the form
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_edit_form', $plugin_admin, 'ibs_ghl_edit_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_edit_form', $plugin_admin, 'ibs_ghl_edit_form_callback' );
+
+		//action hook for opening the setting option of the form
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_form_settings', $plugin_admin, 'ibs_ghl_form_settings_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_settings', $plugin_admin, 'ibs_ghl_form_settings_callback' );
+
+		//action hook for preview the form 
+		// $this->loader->add_action( 'wp_ajax_ibs_ghl_form_preview', $plugin_admin, 'ibs_ghl_form_preview_callback' );
+		// $this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_preview', $plugin_admin, 'ibs_ghl_form_preview_callback' );
+
+		//action hook for the all form preview
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_all_form', $plugin_admin, 'ibs_ghl_all_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_all_form', $plugin_admin, 'ibs_ghl_all_form_callback' );
+
+		//action hook for the trash form preview
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_trash_form_preview', $plugin_admin, 'ibs_ghl_trash_form_preview_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_trash_form_preview', $plugin_admin, 'ibs_ghl_trash_form_preview_callback' );
+
+		//action hook for restoring the form from the trash and send to the all form pages
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_restore_form', $plugin_admin, 'ibs_ghl_restore_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_restore_form', $plugin_admin, 'ibs_ghl_restore_form_callback');
+
+		//action hook for deleting the form permanently from the database
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_delete_permanently', $plugin_admin, 'ibs_ghl_delete_permanently_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_delete_permanently', $plugin_admin, 'ibs_ghl_delete_permanently_callback');
 
 	}
-
+	
 	/**
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.

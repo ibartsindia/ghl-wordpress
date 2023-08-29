@@ -74,6 +74,7 @@ class Ghl_Wordpress_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ghl-wordpress-public.css', array(), $this->version, 'all' );
+		
 
 	}
 
@@ -100,6 +101,8 @@ class Ghl_Wordpress_Public {
 		
 		wp_enqueue_script( $this->plugin_name.'-form-builder', plugin_dir_url( __FILE__ ) . 'js/form-render.min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name.'-jquery-ui', plugin_dir_url( __FILE__ ) . 'js/jquery-ui.min.js', array( 'jquery' ), $this->version, true );
+
+		wp_enqueue_script( $this->plugin_name.'-form-builder-ui', plugin_dir_url( __FILE__ ) . 'js/form-builder.min.js', array( 'jquery' ), $this->version, true );
 
 	}
 	
