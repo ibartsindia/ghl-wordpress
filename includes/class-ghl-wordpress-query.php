@@ -138,11 +138,21 @@ class Ghl_Wordpress_Query {
     }
     
     //sql for getting all the forms data as per is_trash attribute
-    public function ibs_ghl_get_all_forms($trash) {
+    public function ibs_ghl_get_all_forms($form_name,$trash) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form';
         
-        $data = $wpdb->get_results("SELECT * FROM $table_name where is_trash=$trash");
+        if ($form_name=='%'){
+            $data = $wpdb->get_results("SELECT * FROM $table_name where is_trash=$trash");
+        }
+        else{
+        $query = $wpdb->prepare(
+                "SELECT * FROM $table_name WHERE is_trash = $trash AND title LIKE %s",
+                '%' . $wpdb->esc_like($form_name) . '%'
+            );
+        $data = $wpdb->get_results($query);
+        }
+        
         $forms = [];
         
         // Check if there are any records

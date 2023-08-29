@@ -177,10 +177,6 @@ class Ghl_Wordpress {
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_form_settings', $plugin_admin, 'ibs_ghl_form_settings_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_settings', $plugin_admin, 'ibs_ghl_form_settings_callback' );
 
-		//action hook for preview the form 
-		// $this->loader->add_action( 'wp_ajax_ibs_ghl_form_preview', $plugin_admin, 'ibs_ghl_form_preview_callback' );
-		// $this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_preview', $plugin_admin, 'ibs_ghl_form_preview_callback' );
-
 		//action hook for the all form preview
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_all_form', $plugin_admin, 'ibs_ghl_all_form_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_all_form', $plugin_admin, 'ibs_ghl_all_form_callback' );
@@ -197,6 +193,13 @@ class Ghl_Wordpress {
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_delete_permanently', $plugin_admin, 'ibs_ghl_delete_permanently_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_delete_permanently', $plugin_admin, 'ibs_ghl_delete_permanently_callback');
 
+		//action hook for searching the form 
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_search_form', $plugin_admin, 'ibs_ghl_search_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_search_form', $plugin_admin, 'ibs_ghl_search_form_callback');
+
+		//action hook for searching the form in trash 
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_search_trash_form', $plugin_admin, 'ibs_ghl_search_trash_form_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_search_trash_form', $plugin_admin, 'ibs_ghl_search_trash_form_callback');
 	}
 	
 	/**

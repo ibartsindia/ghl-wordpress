@@ -458,6 +458,54 @@
             
         });
 
+         //handle seaching of the form 
+         $("body").on('click', '#search-submit-button', function(e) {
+            e.preventDefault();
+            var searchValue = $('#search').val();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_search_form',
+                    data: searchValue,
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
+        //handle seaching of the form in trash 
+        $("body").on('click', '#search-trash-submit-button', function(e) {
+            e.preventDefault();
+            var searchValue = $('#search-trash').val();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                
+                data: {
+                    action: 'ibs_ghl_search_trash_form',
+                    data: searchValue,
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
         // Function to change serialize array into json
         function formSerializeArrToJson(formSerializeArr){
             var jsonObj = {};

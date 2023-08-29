@@ -139,7 +139,6 @@ class Ghl_Wordpress_Admin {
 	 * 
 	 * @since   1.0.0
 	 */
-
 	public function ibs_ghl_admin_menu() {
 		add_menu_page(
 			__( 'Go High Level for WordPress', 'ghl-wordpress' ),
@@ -168,23 +167,7 @@ class Ghl_Wordpress_Admin {
             'ghl-wordpress-add-form',
 			array($this, 'ibs_ghl_add_form_page')
         );
-        // add_submenu_page(
-        //     'independent-page',
-        //     __( 'Preview', 'ghl-wordpress' ),
-        //     'Independent Page',
-        //     'manage_options',
-        //     'ghl-wordpress-form-preview',
-		// 	array($this, 'ibs_ghl_form_page_preview')
-        // );
-        add_submenu_page(
-            'independent-page',
-            __( 'Trash', 'ghl-wordpress' ),
-            'Independent Page',
-            'manage_options',
-            'ghl-wordpress-trash-form',
-			array($this, 'ibs_ghl_trash_form_preview')
-        );
-     
+             
 	}
 	
 	/**
@@ -192,9 +175,7 @@ class Ghl_Wordpress_Admin {
 	 * 
 	 * @since   1.0.0
      * 
-	 */
-			
-   
+	 */  
 	public function ibs_ghl_settings_page() {
 		?>
         <div class="wrap">
@@ -271,155 +252,6 @@ class Ghl_Wordpress_Admin {
 	    }
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-add-form.php';
 	}
-
-	/**
-	 * Displaying GHL preview forms page
-	 * 
-	 * @since   1.0.0
-	 */
-	// public function ibs_ghl_form_page_preview() {
-    //     if (isset($_GET['page']) && $_GET['page'] === PREVIEW_FORM_PAGE && isset($_GET['id'])) {
-	        
-	//         $id = $_GET['id'];
-	        
-	//         $query = new Ghl_Wordpress_Query();
-    //         $form = $query->ibs_ghl_get_form_data($id);
-            
-    //         $form_meta = $query->ibs_ghl_get_form_meta($id);
-            
-    //         $title = $form['title'];
-    //         $is_active = $form['is_active'];
-	        
-	//     }
-		
-	// 	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-form-preview.php';
-        
-	// }
-
-    /**
-	 * Displaying the forms which is trashed
-	 * 
-	 * @since   1.0.0
-	 */
-	public function ibs_ghl_trash_form_preview() {
-        if (isset($_GET['page']) && $_GET['page'] === TRASH_FORM ) {
-            ?>
-            <h1 style="font-size:23px;font-weight:390;margin-bottom: 10px;margin-top:24px;">Forms</h1>
-            
-	        <?php
-            $query = new Ghl_Wordpress_Query();
-           
-            $data = $query->ibs_ghl_get_all_forms(1);//getting all the forms whose is_trash is set to 1
-            $Allcount=$query->ibs_ghl_count_form(0);//counting the no of form whose is_trash is set to 0
-            $Trashcount=$query->ibs_ghl_count_form(1);//counting the no of form whose is_trash is set to 1
-
-            //displaying the all and trash options
-            echo '
-                <form>
-                    <div class="filter_buttons">
-                        <button id="All-button" class="All_form_button" >All('.esc_attr($Allcount).')</button> 
-                        <button name="trash_button" id="Trash-preview-button" style="color: blue !important;" class="Trash_form_button">Trash('.esc_attr($Trashcount).')</button>
-                    </div>
-                </form>';
-
-            if(!empty($data)) {
-        
-                // Filter and search logic
-                $search = isset($_POST['s']) ? sanitize_text_field($_POST['s']) : '';
-                $filter_age = isset($_POST['filter_age']) ? intval($_POST['filter_age']) : 0;
-            
-                // Filter data based on search and filter
-                $filtered_data = array_filter($data, function($row) use ($search, $filter_age) {
-                    $matches_search = empty($search) || strpos(strtolower($row['Name']), strtolower($search)) !== false;
-                    $matches_filter = $filter_age === 0 || $row['Age'] === $filter_age;
-                    return $matches_search && $matches_filter;
-                });
-            
-                // Display the table
-                echo '<form method="post" id="ibs-gohighlevel-form">';
-                echo '<p class="search-box">';
-                echo '<label class="screen-reader-text" for="post-search-input">Search:</label>';
-                echo '<input type="search" id="post-search-input" name="s" value="' . esc_attr($search) . '">';
-                echo '<input type="submit" value="Search" class="button" id="search-submit" name="">';
-                echo '</p>';
-            
-                echo '<table class="wp-list-table widefat striped">';
-                echo '<thead>';
-                echo '<tr>';
-                echo '<th class="check-column"><input type="checkbox" /></th>'; // Checkbox for bulk select
-                
-                echo '<th>Title</th>';
-                echo '<th>ID</th>';
-                echo '<th>Status</th>';
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-    
-                
-                // Loop through the filtered data and generate rows
-                foreach ($filtered_data as $row) {
-                    echo '<tr>';
-                    echo '<td class="check-column"><input type="checkbox" name="bulk_action[]" value="' . esc_attr($row['id']) . '" /></td>'; // Checkbox for individual row
-                    echo '<td>' . esc_html(ucfirst($row['title'])) . 
-                    '<br>
-                    <div class="parent-element">
-    
-                     
-    
-                        <button id="restore-button" data-id="'. esc_attr($row['id']) . '"  class="restore_button">' . __( "Restore").'</button>
-    
-                        <button id="delete-permanently-button" data-id="'. esc_attr($row['id']) . '"  class="delete_permanently_button">' . __( "Delete Permanently").'</button>'.
-
-                    '<div/></td>';
-    
-                    echo '<td>' . esc_html($row['id']) . '</td>';
-                    echo '<td>' . esc_html($row['is_active']) . '</td>';
-                    echo '</tr>';
-                }
-                
-                echo '</tbody>';
-                echo '<tfoot>';
-                echo '<tr>';
-                echo '<th class="check-column"><input type="checkbox" /></th>'; // Checkbox for bulk select
-                echo '<th>Title</th>';
-                echo '<th>ID</th>';
-                echo '<th>Status</th>';
-                echo '</tr>';
-                echo '</tfoot>';
-                echo '</table>';
-                
-                // Add bulk action options
-                echo '<div class="tablenav bottom">';
-                echo '<div class="alignleft actions bulkactions">';
-                echo '<label for="bulk-action-selector-bottom" class="screen-reader-text">Select bulk action</label>';
-                echo '<select name="action" id="bulk-action-selector-bottom">';
-                echo '<option value="-1">Bulk Actions</option>';
-                echo '<option value="delete">Delete</option>'; // Add more options as needed
-                echo '</select>';
-                echo '<input type="submit" name="submit_bulk_action" id="doaction" class="button action" value="Apply">';
-                echo '</div>';
-                echo '<br class="clear">';
-                echo '</div>';
-                
-                echo '</form>';
-            } else {
-                echo '<table class="wp-list-table widefat striped">';
-                echo '<thead>';
-                echo '<tr>';
-                echo '<th>Title</th>';
-                echo '<th>ID</th>';
-                echo '<th>Status</th>';
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody><tr><td>No data Found</td></tr></tbody>';
-                echo '</table>';
-            }
-	        
-	    }
-		
-		
-        
-	}
     
 	/**
 	 * Register and initialize the settings
@@ -484,23 +316,63 @@ class Ghl_Wordpress_Admin {
     public function ibs_ghl_form_table_content() {
         
         $query = new Ghl_Wordpress_Query();
-        
-        
-        $data = $query->ibs_ghl_get_all_forms(0);//getting all the forms whose is_trash is set to 1
-        $Allcount=$query->ibs_ghl_count_form(0);//counting the no of form whose is_trash is set to 0
-        $Trashcount=$query->ibs_ghl_count_form(1);//counting the no of form whose is_trash is set to 1
+        $All=0;
+        $Trash=1;
+        if (isset($_GET['filter']) && $_GET['filter'] == 'trash' && isset($_GET['search']) ) {
+            $form_name= sanitize_text_field($_GET['search']);
+            $data=$query->ibs_ghl_get_all_forms($form_name,$Trash);
+        }
 
-        echo '
-        <form>
-            <div class="filter_buttons">
-                <button id="All-button" class="All_form_button" style="color: blue !important;">All('.esc_attr($Allcount).')</button> 
-                <button name="trash_button" id="Trash-preview-button" class="Trash_form_button">Trash('.esc_attr($Trashcount).')</button>
-            </div>
+        else if(isset($_GET['filter']) && $_GET['filter'] == 'trash'){
+            $form_name='%';
+            $data=$query->ibs_ghl_get_all_forms($form_name,$Trash);
+        }
+        else if (isset($_GET['search'])){
+            $form_name= sanitize_text_field($_GET['search']);    
+            $data=$query->ibs_ghl_get_all_forms($form_name,$All);
+        }
+        else{
+            $form_name='%';
+            $data=$query->ibs_ghl_get_all_forms($form_name,$All);
+        }
+        
+        $Allcount=$query->ibs_ghl_count_form($All);//counting the no of form whose is_trash is set to 0
+        $Trashcount=$query->ibs_ghl_count_form($Trash);//counting the no of form whose is_trash is set to 1
+
+        echo '<form>
+            <div class="filter_buttons">';
+                if (isset($_GET['filter']) && $_GET['filter'] == 'trash') {
+                    echo '<button id="All-button" class="All_form_button">All('.esc_attr($Allcount).')</button>
+                        <button name="trash_button" id="Trash-preview-button" class="Trash_form_button" style="color: blue !important;">Trash('.esc_attr($Trashcount).')</button>';
+                } else {
+                    echo '<button id="All-button" class="All_form_button" style="color: blue !important;">All('.esc_attr($Allcount).')</button>
+                        <button name="trash_button" id="Trash-preview-button" class="Trash_form_button">Trash('.esc_attr($Trashcount).')</button>';
+                }
+            echo '</div>
         </form>';
+        $search_placeholder = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+        if (isset($_GET['filter']) && $_GET['filter'] == 'trash'){
+            echo '<p class="search-box">';
+            echo '<label class="screen-text" for="search-trash">Search:</label>';
+            echo '<input type="search" id="search-trash" name="form_search" value="' . esc_attr($search_placeholder) . '">';
+            
+            echo '<input type="submit" value="Search" class="button" id="search-trash-submit-button" name="" >
+            ';
+            echo '</p>';
+        }
+        else{
+            echo '<p class="search-box">';
+            echo '<label class="screen-text" for="search">Search:</label>';
+            echo '<input type="search" id="search" name="form_search" value="' . esc_attr($search_placeholder) . '">';
+            echo '<input type="submit" value="Search" class="button" id="search-submit-button" name="" >
+            ';
+            echo '</p>';
+        }
         if(!empty($data)) {
-    
+            
             // Filter and search logic
-            $search = isset($_POST['s']) ? sanitize_text_field($_POST['s']) : '';
+            $search = '';
+            
             $filter_age = isset($_POST['filter_age']) ? intval($_POST['filter_age']) : 0;
         
             // Filter data based on search and filter
@@ -509,20 +381,14 @@ class Ghl_Wordpress_Admin {
                 $matches_filter = $filter_age === 0 || $row['Age'] === $filter_age;
                 return $matches_search && $matches_filter;
             });
-        
+            
             // Display the table
             echo '<form method="post" id="ibs-gohighlevel-form">';
-            echo '<p class="search-box">';
-            echo '<label class="screen-reader-text" for="post-search-input">Search:</label>';
-            echo '<input type="search" id="post-search-input" name="s" value="' . esc_attr($search) . '">';
-            echo '<input type="submit" value="Search" class="button" id="search-submit" name="">';
-            echo '</p>';
-        
+            
             echo '<table class="wp-list-table widefat striped">';
             echo '<thead>';
             echo '<tr>';
             echo '<th class="check-column"><input type="checkbox" /></th>'; // Checkbox for bulk select
-            
         
             echo '<th>Title</th>';
             echo '<th>ID</th>';
@@ -530,7 +396,6 @@ class Ghl_Wordpress_Admin {
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
-
             
             // Loop through the filtered data and generate rows
             foreach ($filtered_data as $row) {
@@ -538,16 +403,23 @@ class Ghl_Wordpress_Admin {
                 echo '<td class="check-column"><input type="checkbox" name="bulk_action[]" value="' . esc_attr($row['id']) . '" /></td>'; // Checkbox for individual row
                 echo '<td>' . esc_html(ucfirst($row['title'])) . 
                 '<br>
-                <div class="parent-element">
-
+                <div class="parent-element">';
+                if (isset($_GET['filter']) && $_GET['filter'] == 'trash') {
+                    echo'
+                    <button id="restore-button" data-id="'. esc_attr($row['id']) . '" name="restore_button" class="restore_button">' . __( "Restore").'</button>
+        
+                    <button id="delete-permanently-button" data-id="'. esc_attr($row['id']) . '"  class="delete_permanently_button">' . __( "Delete Permanently").'</button>';
+                }
+                else{
+                    echo '
                     <button id="edit-button" class="edit_button" 
                      data-id="'.esc_attr($row['id']).'" >'. __( "Edit").'</button>'. 
 
                     '<button id="settings-button" data-id="'. esc_attr($row['id']) . '"  class="settings_button">' . __( "Settings").'</button>
 
-                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>'.
-                    // <button id="preview-button" class="preview_button" 
-                    //   data-id="'.esc_attr($row['id']).'" >'. __( "Preview").'</button>
+                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>';
+                }
+                echo
                 '<div/></td>';
 
                 echo '<td>' . esc_html($row['id']) . '</td>';
@@ -647,7 +519,6 @@ class Ghl_Wordpress_Admin {
                 echo json_encode(['status' => 500, 'url' => get_admin_url()."admin.php?page=".ADD_FORM_PAGE]);
             }
         }
-        
         wp_die();
     }
     
@@ -687,7 +558,7 @@ class Ghl_Wordpress_Admin {
     //sending the forms to the trash
     public function ibs_ghl_trash_form_callback(){
         if($_POST['action'] == 'ibs_ghl_trash_form') {
-            $id = intval($_POST['data']);
+            $id=sanitize_text_field(intval($_POST['data']));
 
             $query = new Ghl_Wordpress_Query();
             $query->ibs_trash($id);
@@ -697,15 +568,14 @@ class Ghl_Wordpress_Admin {
             wp_die();
 
         }
-
     }
 
     //handling the edit form as per the form id
     public function ibs_ghl_edit_form_callback(){
         if($_POST['action'] == 'ibs_ghl_edit_form'){
-            $form_id = intval($_POST['data']);
+            $id=sanitize_text_field(intval($_POST['data']));
 
-            $edit_page_url=get_admin_url()."admin.php?page=".ADD_FORM_PAGE."&id=$form_id";
+            $edit_page_url=get_admin_url()."admin.php?page=".ADD_FORM_PAGE."&id=$id";
             $response=array((['status' => 201, 'url' => $edit_page_url]));
             
             wp_send_json($response);
@@ -724,24 +594,10 @@ class Ghl_Wordpress_Admin {
         }
     }
 
-    
-
-    //preview display
-    // public function ibs_ghl_form_preview_callback(){
-    //     if($_POST['action']=='ibs_ghl_form_preview'){
-    //         $form_id = intval($_POST['data']);
-    //         $preview_page_url=get_admin_url()."admin.php?page=".PREVIEW_FORM_PAGE."&id=$form_id";
-    //         $response=array((['status'=>201,'url'=>$preview_page_url]));
-    //         wp_send_json($response);
-    //         wp_die();
-    //     }
-    // }
-
     //trash preview
     public function ibs_ghl_trash_form_preview_callback(){
         if($_POST['action']=='ibs_ghl_trash_form_preview'){
-            
-            $preview_page_url=get_admin_url()."admin.php?page=".TRASH_FORM;
+            $preview_page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&filter=trash";
             $response=array((['status'=>201,'url'=>$preview_page_url]));
             wp_send_json($response);
             wp_die();
@@ -761,11 +617,11 @@ class Ghl_Wordpress_Admin {
     //restoring the form from the database and send it to the all form pages
     public function ibs_ghl_restore_form_callback(){
         if($_POST['action']=='ibs_ghl_restore_form'){
-            $id=intval($_POST['data']);
+            $id=sanitize_text_field(intval($_POST['data']));
             $query = new Ghl_Wordpress_Query();
             $query->ibs_restore_form($id);
-
-            $page_url=get_admin_url()."admin.php?page=".TRASH_FORM;
+            
+            $page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&filter=trash";
             $response=array((['status'=>201,'url'=>$page_url]));
             wp_send_json($response);
             wp_die();
@@ -775,16 +631,37 @@ class Ghl_Wordpress_Admin {
     //deleting the form permanently from the database
     public function ibs_ghl_delete_permanently_callback(){
         if($_POST['action']=='ibs_ghl_delete_permanently'){
-            $id=intval($_POST['data']);
-
+            $id=sanitize_text_field(intval($_POST['data']));
+    
             $query = new Ghl_Wordpress_Query();
             $query->ibs_delete_form_permanently($id);
 
-            $page_url=get_admin_url()."admin.php?page=".TRASH_FORM;
+            $page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&filter=trash";
             $response=array((['status'=>201,'url'=>$page_url]));
             wp_send_json($response);
             wp_die();
         }
     }
+    
+    //searching the form 
+    public function ibs_ghl_search_form_callback(){
+        if($_POST['action']=='ibs_ghl_search_form'){
+            $form_name=$_POST['data'];
 
+            $page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&search="."$form_name";
+            $response=array((['status'=>201,'url'=>$page_url]));
+            wp_send_json($response);
+            wp_die();
+        }
+    }
+    public function ibs_ghl_search_trash_form_callback(){
+        if($_POST['action']=='ibs_ghl_search_trash_form'){
+            $form_name=$_POST['data'];
+
+            $page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&filter=trash&search="."$form_name";
+            $response=array((['status'=>201,'url'=>$page_url]));
+            wp_send_json($response);
+            wp_die();
+        }
+    }
 }
