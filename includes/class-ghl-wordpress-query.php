@@ -102,6 +102,7 @@ class Ghl_Wordpress_Query {
         
     }
     
+
     public function ibs_ghl_get_form_meta($form_id) {
         
         global $wpdb;
@@ -141,20 +142,11 @@ class Ghl_Wordpress_Query {
     public function ibs_ghl_get_all_forms($form_name,$trash) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form';
-        
-        if ($form_name=='%'){
-            $data = $wpdb->get_results("SELECT * FROM $table_name where is_trash=$trash");
-        }
-        else{
-        $query = $wpdb->prepare(
-                "SELECT * FROM $table_name WHERE is_trash = $trash AND title LIKE %s",
-                '%' . $wpdb->esc_like($form_name) . '%'
-            );
-        $data = $wpdb->get_results($query);
-        }
+    
+        $query = $wpdb->prepare("SELECT * FROM $table_name WHERE is_trash = %d AND title LIKE %s", $trash, '%'. $form_name .'%');
+        $data = $wpdb->get_results($query);    
         
         $forms = [];
-        
         // Check if there are any records
         if ($wpdb->num_rows > 0) {
             foreach($data as $d) {
@@ -180,7 +172,6 @@ class Ghl_Wordpress_Query {
         
         $count = $wpdb->get_results("SELECT COUNT(ID) FROM $table_name where is_trash=$trash");
         return $count[0]->{'COUNT(ID)'};
-
     }
 
     //changing the form is_trash from 1 to 0 using sql
@@ -224,13 +215,11 @@ class Ghl_Wordpress_Query {
         $data_to_update = array(
                 'is_trash' => '1'
         );
-            
         $where_condition = array(
            'id' => $id 
         );
             
         $wpdb->update($table_name, $data_to_update, $where_condition);
-        
         // Check if the update was successful
         if ($wpdb->last_error === '') {
             return ['status' => 200];

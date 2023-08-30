@@ -365,7 +365,7 @@
             
         });
 
-        //handle All
+        //handle displaying of All forms
         $("body").on('click', '#All-button', function(e) {
             e.preventDefault();
             $.ajax({

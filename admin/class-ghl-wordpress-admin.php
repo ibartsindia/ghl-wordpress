@@ -328,7 +328,7 @@ class Ghl_Wordpress_Admin {
             $data=$query->ibs_ghl_get_all_forms($form_name,$Trash);
         }
         else if (isset($_GET['search'])){
-            $form_name= sanitize_text_field($_GET['search']);    
+            $form_name= sanitize_text_field($_GET['search']);   
             $data=$query->ibs_ghl_get_all_forms($form_name,$All);
         }
         else{
