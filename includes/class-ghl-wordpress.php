@@ -200,6 +200,11 @@ class Ghl_Wordpress {
 		//action hook for searching the form in trash 
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_search_trash_form', $plugin_admin, 'ibs_ghl_search_trash_form_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_search_trash_form', $plugin_admin, 'ibs_ghl_search_trash_form_callback');
+
+		//action hook for searching the form in trash 
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_form_entries', $plugin_admin, 'ibs_ghl_form_entries_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_entries', $plugin_admin, 'ibs_ghl_form_entries_callback');
+		
 	}
 	
 	/**

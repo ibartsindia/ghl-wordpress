@@ -96,7 +96,7 @@
    width: 40px;
    position: absolute;
    top: 50%;
-   margin-left: 88px;
+   margin-left: 135px;
    transform: translate(-50%, -50%);
    color: #db7434;
    background: transparent;
@@ -106,7 +106,21 @@
    opacity: 0;
    transition: opacity 0.3s ease-in-out;
 }
-
+.entries_button{
+   border-right: 2px solid lightgray !important;
+   width: 50px;
+   position: absolute;
+   top: 50%;
+   margin-left: 90px;
+   transform: translate(-50%, -50%);
+   color: #3498db;
+   background: transparent;
+   border: none;
+   padding: 0;
+   cursor: pointer;
+   opacity: 0;
+   transition: opacity 0.3s ease-in-out;
+}
 .parent-element:hover .edit_button {
    opacity: 1;
 }
@@ -122,6 +136,9 @@
 .parent-element:hover .delete_permanently_button {
    opacity: 1;
 } 
+.parent-element:hover .entries_button {
+   opacity: 1;
+}
 
 
  #ibs-ghl-forms input[type=checkbox] {

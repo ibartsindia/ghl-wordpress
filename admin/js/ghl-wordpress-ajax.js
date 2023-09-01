@@ -506,6 +506,29 @@
             
         });
 
+        //handle entries
+        $("body").on('click', '#entries-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: ajax_data.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'ibs_ghl_form_entries',
+                    data: $(this).attr("data-id")                  
+                },
+                success: function(response) {
+                    if (response[0].status === 201) {
+                        window.location.href = response[0].url;
+                        console.log(response[0].url);
+                    }
+                },
+                complete: function() {
+                    
+                }
+            });
+            
+        });
+
         // Function to change serialize array into json
         function formSerializeArrToJson(formSerializeArr){
             var jsonObj = {};

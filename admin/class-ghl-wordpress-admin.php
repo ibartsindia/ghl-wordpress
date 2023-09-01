@@ -167,6 +167,14 @@ class Ghl_Wordpress_Admin {
             'ghl-wordpress-add-form',
 			array($this, 'ibs_ghl_add_form_page')
         );
+        add_submenu_page(
+            'independent-page',
+            __( 'Form Entries', 'ghl-wordpress' ),
+            'Independent Page',
+            'manage_options',
+            'ghl-wordpress-form-entries',
+			array($this, 'ibs_ghl_form_entries_display_callback')
+        );
              
 	}
 	
@@ -252,6 +260,18 @@ class Ghl_Wordpress_Admin {
 	    }
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-add-form.php';
 	}
+
+
+    /**
+	 * Displaying GHL forms entries
+	 * 
+	 * @since   1.0.0
+	 */
+	public function ibs_ghl_form_entries_display_callback(){
+        if (isset($_GET['page']) && $_GET['page'] === 'ghl-wordpress-form-entries' && isset($_GET['id'])){
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-form-entries-display.php';
+        }
+    }
     
 	/**
 	 * Register and initialize the settings
@@ -392,7 +412,8 @@ class Ghl_Wordpress_Admin {
         
             echo '<th>Title</th>';
             echo '<th>ID</th>';
-            echo '<th>Status</th>';
+            echo '<th style="width:132px;">Status</th>';
+            echo '<th>Entries</th>';
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
@@ -417,13 +438,17 @@ class Ghl_Wordpress_Admin {
 
                     '<button id="settings-button" data-id="'. esc_attr($row['id']) . '"  class="settings_button">' . __( "Settings").'</button>
 
-                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>';
+                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>
+
+                    <button id="entries-button" data-id="'. esc_attr($row['id']) . '"  class="entries_button">' . __( "Entries").'</button>';
                 }
                 echo
                 '<div/></td>';
 
                 echo '<td>' . esc_html($row['id']) . '</td>';
                 echo '<td>' . esc_html($row['is_active']) . '</td>';
+                $entries_count=$query->ibs_ghl_count_form_entries($row['id']);
+                echo '<td>' . esc_html($entries_count) . '</td>';
                 echo '</tr>';
             }
             
@@ -434,6 +459,7 @@ class Ghl_Wordpress_Admin {
             echo '<th>Title</th>';
             echo '<th>ID</th>';
             echo '<th>Status</th>';
+            echo '<th>Entries</th>';
             echo '</tr>';
             echo '</tfoot>';
             echo '</table>';
@@ -659,6 +685,17 @@ class Ghl_Wordpress_Admin {
             $form_name=$_POST['data'];
 
             $page_url=get_admin_url()."admin.php?page=".ALL_FORMS_PAGE."&filter=trash&search="."$form_name";
+            $response=array((['status'=>201,'url'=>$page_url]));
+            wp_send_json($response);
+            wp_die();
+        }
+    }
+
+    public function ibs_ghl_form_entries_callback(){
+        if($_POST['action']=='ibs_ghl_form_entries'){
+            $id=$_POST['data'];
+
+            $page_url=get_admin_url()."admin.php?page=".FORM_ENTRIES."&id="."$id";
             $response=array((['status'=>201,'url'=>$page_url]));
             wp_send_json($response);
             wp_die();

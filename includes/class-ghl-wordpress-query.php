@@ -225,7 +225,28 @@ class Ghl_Wordpress_Query {
         }
     }
 
-    //get form entries
-    // public 
+    // getting the form name
+    public function ibs_ghl_get_form_name($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form';
+        
+        $form_name=$wpdb->get_results($wpdb->prepare("Select title from $table_name where id= %s",$id));
+        return $form_name[0]->title;
+    }
+
+    public function ibs_ghl_get_form_entries($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
+        
+        $json=$wpdb->get_results($wpdb->prepare("Select * from $table_name where form_id= %s ",$id));
+        return $json;
+    }
+    public function ibs_ghl_count_form_entries($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
+        
+        $count=$wpdb->get_var($wpdb->prepare("Select Count(*) from $table_name where form_id= %s ",$id));
+        return $count;
+    }
 
 }
