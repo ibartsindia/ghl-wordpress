@@ -13,7 +13,7 @@ echo "<h1>".$form_name." Entries </h1> ";
         <tr>
             <th>Entry ID</th>
             <th>Form ID</th>
-            <th>Value</th>
+            <th>Entries</th>
         </tr>
     </thead>
     <tbody>

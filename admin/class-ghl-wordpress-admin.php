@@ -411,9 +411,9 @@ class Ghl_Wordpress_Admin {
             echo '<th class="check-column"><input type="checkbox" /></th>'; // Checkbox for bulk select
         
             echo '<th>Title</th>';
-            echo '<th>ID</th>';
+            echo '<th style="width:132px;">ID</th>';
             echo '<th style="width:132px;">Status</th>';
-            echo '<th>Entries</th>';
+            echo '<th style="width:132px;">Entries</th>';
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
@@ -438,9 +438,10 @@ class Ghl_Wordpress_Admin {
 
                     '<button id="settings-button" data-id="'. esc_attr($row['id']) . '"  class="settings_button">' . __( "Settings").'</button>
 
-                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>
+                    <button id="entries-button" data-id="'. esc_attr($row['id']) . '"  class="entries_button">' . __( "Entries").'</button>
 
-                    <button id="entries-button" data-id="'. esc_attr($row['id']) . '"  class="entries_button">' . __( "Entries").'</button>';
+                    <button id="trash-button" data-id="'. esc_attr($row['id']) . '"  class="trash_button">' . __( "Trash").'</button>';
+                    
                 }
                 echo
                 '<div/></td>';

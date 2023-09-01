@@ -30,7 +30,7 @@
 
                 $name_value = trim($first_name . ' ' . $last_name );
                 $tags='Hello';	
-                $name_value = trim($first_name . ' ' . $last_name );
+
                 $contact_data = array(
                         'name' => $name_value,
                         'email' => $email,
@@ -50,7 +50,8 @@
                 //         ),
                 //         'body'        => json_encode($contact_data),
                 //         'cookies'     => array()
-                //     ) );
+                //     ) 
+                // );
 		    }
         }
     }
