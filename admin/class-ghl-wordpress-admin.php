@@ -338,7 +338,7 @@ class Ghl_Wordpress_Admin {
         
         $Allcount=$query->ibs_ghl_count_form($All);//counting the no of form whose is_trash is set to 0
         $Trashcount=$query->ibs_ghl_count_form($Trash);//counting the no of form whose is_trash is set to 1
-
+        
         echo '<form>
             <div class="filter_buttons">';
                 if (isset($_GET['filter']) && $_GET['filter'] == 'trash') {

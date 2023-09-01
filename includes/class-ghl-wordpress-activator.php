@@ -32,6 +32,7 @@ class Ghl_Wordpress_Activator {
 	public static function activate() {
         self::ibs_ghl_create_form_table();
         self::ibs_ghl_create_form_meta_table();
+        self::ibs_ghl_form_entries();
 	}
 	
 	public static function ibs_ghl_create_form_table() {
@@ -82,5 +83,25 @@ class Ghl_Wordpress_Activator {
         }
         
 	}
+
+    public static function ibs_ghl_form_entries(){
+        global $wpdb;
+        
+        $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
+        $charset_collate = $wpdb->get_charset_collate();
+        
+        //create table only if doesnot exist
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+            $sql = "CREATE TABLE $table_name (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                form_id INT(11) NOT NULL,
+                entries LONGTEXT,
+                PRIMARY KEY (id)
+            ) $charset_collate;";
+        
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+    } 
 
 }

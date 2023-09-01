@@ -162,7 +162,6 @@ class Ghl_Wordpress_Query {
             }
             return $forms;
         }
-        
     }
 
     //sql for counting the form as per the is_trash option
@@ -225,5 +224,8 @@ class Ghl_Wordpress_Query {
             return ['status' => 200];
         }
     }
+
+    //get form entries
+    // public 
 
 }

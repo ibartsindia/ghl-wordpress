@@ -43,6 +43,11 @@ define( 'GHL_WORDPRESS_VERSION', '1.0.0' );
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-ghl-wordpress-query.php';
 
 /**
+ * The class responsible for defining all actions that relates to api
+ */
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ghl-wordpress-api.php';
+
+/**
  * The class responsible for defining all constants
  */
 require_once plugin_dir_path( __FILE__ ) . 'definition.php';
