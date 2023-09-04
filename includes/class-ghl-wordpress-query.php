@@ -76,11 +76,38 @@ class Ghl_Wordpress_Query {
         $wpdb->update($table_name, $data, $where);
         
         // Check if the update was successful
-        if ($wpdb->last_error === '') {
-            return ['status' => 200];
-        }
+        // if ($wpdb->last_error === '') {
+        //     return ['status' => 200];
+        // }
     }
     
+
+    public function ibs_ghl_update_form_display_meta($form_id, $data){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form_meta';
+        $row_id =$form_id; 
+
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $row_id), ARRAY_A);
+
+        if ($row) {
+            // Modify the specific column's value (e.g., update 'column_to_update')
+            $new_value = $data; // Replace with the new value
+
+            // Update the specific column in the data array
+            $row['display_meta'] = $new_value;
+
+            // Update the row in the database
+            $wpdb->update($table_name, $row, array('id' => $row_id), array('%s'), array('%d'));
+
+            if ($wpdb->last_error) {
+                echo "Error updating database: " . $wpdb->last_error;
+            } else {
+                echo "Column updated successfully!";
+            }
+        } else {
+            echo "Row with ID $row_id not found.";
+        }
+    }
     public function ibs_ghl_get_form_data($form_id) {
         global $wpdb;
         $data = [];
@@ -248,5 +275,13 @@ class Ghl_Wordpress_Query {
         $count=$wpdb->get_var($wpdb->prepare("Select Count(*) from $table_name where form_id= %s ",$id));
         return $count;
     }
+    public function ibs_ghl_get_form_meta_display($id){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'ibs_ghl_form_meta';
+        
+        $display_meta=$wpdb->get_var($wpdb->prepare("Select display_meta from $table_name where form_id= %s ",$id));
+        return $display_meta;
+    }
+    
 
 }

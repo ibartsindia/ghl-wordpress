@@ -26,7 +26,7 @@
             $api_key = get_option('ibs_ghl_subaccount_api_key');
 
             if ($api_key) {
-				$endpoint = 'https://rest.gohighlevel.com/v1/contacts/';
+				$endpoint = API_ENDPOINT;
 
                 $name_value = trim($first_name . ' ' . $last_name );
                 $tags='Hello';	

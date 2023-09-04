@@ -58,20 +58,17 @@ foreach ($_POST as $field_name => $field_value) {
     $myArray[] = array($sanitized_field_name => $sanitized_field_value);
     
     // checking the variables name
-    if(strpos(strtolower($sanitized_field_name), 'first-name') !== false){
-      $first_name=$sanitized_field_value;
+    if(strpos(($sanitized_field_name), 'Name') !== false){
+      $name=$sanitized_field_value;
     }
-    else if(strpos(strtolower($sanitized_field_name), 'last-name') !== false){
-      $last_name=$sanitized_field_value;
-    }
-    else if(strpos(strtolower($sanitized_field_name), 'email') !== false){
+    else if(strpos(($sanitized_field_name), 'Email') !== false){
       $email=$sanitized_field_value;
     }
-    else if (strpos(strtolower($sanitized_field_name), 'phone') !== false){
+    else if (strpos($sanitized_field_name, 'Phone') !== false){
       $phone=$sanitized_field_value;
     }
 }
-// var_dump($first_name,$last_name,$email,$phone);
+var_dump($name,$email,$phone);
 // $api=new Ghl_Wordpress_API();
 // $api->ibs_ghl_send_to_ghl($first_name,$last_name,$email,$phone);
 $serialized_array = json_encode($myArray);

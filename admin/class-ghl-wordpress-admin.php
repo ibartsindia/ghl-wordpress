@@ -175,6 +175,14 @@ class Ghl_Wordpress_Admin {
             'ghl-wordpress-form-entries',
 			array($this, 'ibs_ghl_form_entries_display_callback')
         );
+        add_submenu_page(
+            'independent-page',
+            __( 'Field Settings', 'ghl-wordpress' ),
+            'Independent Page',
+            'manage_options',
+            'ghl-wordpress-field-settings',
+			array($this, 'ibs_ghl_field_settings_display_callback')
+        );
              
 	}
 	
@@ -260,7 +268,17 @@ class Ghl_Wordpress_Admin {
 	    }
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-add-form.php';
 	}
-
+    /**
+	 * Displaying GHL forms entries
+	 * 
+	 * @since   1.0.0
+	 */
+	public function  ibs_ghl_field_settings_display_callback(){
+        if (isset($_GET['page']) && $_GET['page'] === 'ghl-wordpress-field-settings' && isset($_GET['id'])){
+            $id=$_GET['id'];
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-field-settings-display.php';
+        }
+    }
 
     /**
 	 * Displaying GHL forms entries
@@ -613,7 +631,8 @@ class Ghl_Wordpress_Admin {
     //handling the form settings as per form id
     public function ibs_ghl_form_settings_callback(){
         if($_POST['action'] == 'ibs_ghl_form_settings'){
-            $settings_page_url=get_admin_url()."admin.php?page=ghl-wordpress-settings";
+            $id=sanitize_text_field(intval($_POST['data']));
+            $settings_page_url=get_admin_url()."admin.php?page=".FORM_SETTINGS."&id=$id";
             $response=array((['status' => 201, 'url' => $settings_page_url]));
             
             wp_send_json($response);

@@ -33,6 +33,7 @@ class Ghl_Wordpress_Activator {
         self::ibs_ghl_create_form_table();
         self::ibs_ghl_create_form_meta_table();
         self::ibs_ghl_form_entries();
+        self::ibs_ghl_field_mapping();
 	}
 	
 	public static function ibs_ghl_create_form_table() {
@@ -96,6 +97,27 @@ class Ghl_Wordpress_Activator {
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 form_id INT(11) NOT NULL,
                 entries LONGTEXT,
+                PRIMARY KEY (id)
+            ) $charset_collate;";
+        
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+    } 
+    public static function ibs_ghl_field_mapping(){
+        global $wpdb;
+        
+        $table_name = $wpdb->prefix . 'ibs_ghl_field_mapping';
+        $charset_collate = $wpdb->get_charset_collate();
+        
+        //create table only if doesnot exist
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+            $sql = "CREATE TABLE $table_name (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                form_id INT(11) NOT NULL,
+                user_name VARCHAR(50) ,
+                user_email varchar(50),
+                user_phone varchar(50),
                 PRIMARY KEY (id)
             ) $charset_collate;";
         
