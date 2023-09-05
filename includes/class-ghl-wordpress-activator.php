@@ -114,7 +114,7 @@ class Ghl_Wordpress_Activator {
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
             $sql = "CREATE TABLE $table_name (
                 id INT(11) NOT NULL AUTO_INCREMENT,
-                form_id INT(11) NOT NULL,
+                form_id INT(11) UNIQUE,
                 user_name VARCHAR(50) ,
                 user_email varchar(50),
                 user_phone varchar(50),

@@ -1,28 +1,11 @@
-
-<script>
-    function addMoreFields() {
-    
-    var container = document.getElementById("container");
-    
-    var newFields = document.createElement("div");
-    newFields.className = "location_and_api_form"; // Add a class to style the container
-    newFields.innerHTML = `
-        <input class="location_name_field" type="text" name="" placeholder="">
-        <input class="location_api_field" type="text" name="" placeholder="">
-    `;
-    container.appendChild(newFields);
-}
-</script>
 <h1>Field Settings of Form No.<?php echo $id;?> </h1>
 
 <?php
 $query=new Ghl_Wordpress_Query();
 $jsonArray=$query->ibs_ghl_get_form_meta_display($id);
-// var_dump($jsonArray);
 $data = json_decode(stripslashes($jsonArray), true);
 
 if ($data !== null) {
-    
     $labelNames = [];
     $fieldNames=[];
     foreach ($data as $item) {
@@ -32,64 +15,105 @@ if ($data !== null) {
         }
     }
     // print_r($labelNames);
-} else {
+} 
+else {
     echo "Invalid JSON format.";
 }
+$form_mapping_data=$query->ibs_ghl_get_form_mapping_data($id);
+$mapName=array($form_mapping_data[0]->user_name,$form_mapping_data[0]->user_email,$form_mapping_data[0]->user_phone);
+// var_dump($mapName);
+$GHL_fields=array("Name","Email","Phone");
+
 ?>
-<div style="display:flex;">
+<div >
     <h2 style="margin-right:40px;">Field Mapping </h2>
-    <form method="post" style="display:flex;">
-        <div>
-            <h4 style="margin-right:40px;">GHL Field</h4>
-            <select name="GHL" id="GHL_field">
-                <option >Default</option>
-                <option value="Name">Name</option>
-                <option value="Email">Email</option>
-                <option value="Phone">Phone</option>
-                <option value="Submit">Submit</option>
-            </select>
-        </div>
-        <div>
-            <h4 style="margin-right:40px;">Form Field Label</h4>
-            <?php
-                echo'<select name="form_field" id="form_field">';
-                echo'<option >Default</option>';
-                for($i=0;$i<count($labelNames);$i++){
-                    echo"<option value='$fieldNames[$i]'>$labelNames[$i]</option>";       
-                }?>
-                </select>
-        </div>
-        
-        <button name='submitted' type='submit' style="width:60px; height:30px; margin-top:50px; margin-left:20px;">Save</button>
+    <form method="post" >
+        <table class="wp-list-table widefat striped">
+            <thead>
+                    <tr>
+                        <th style="width:132px;">GHL fields</th>
+                        <th style="width:132px;">Form Fields</th>
+                    </tr>
+            </thead>
+            <tbody>    
+                <?php
+                    $j=0;
+                    foreach($GHL_fields as $field){
+                        echo "<tr>";
+                            echo "<td>$field</td>";
+                            ?>
+                            <td><select name='form_field<?php echo $field ?>' id='form_field'>
+                            <?php
+                            echo'<option value="select">Select</option>';
+                            $x=1;
+                            for ($i = 0; $i < count($fieldNames); $i++) {
+                                if(($j<3) && $x && strpos($mapName[$j],$fieldNames[$i])!==false){
+                                    $x=0;
+                                    echo $j; ?>
+                                    <option value='<?php echo $fieldNames[$i]; ?>' selected><?php echo $labelNames[$i]; ?>
+                                    </option>
+                                <?php }
+                                else{ ?>
+                                    <option value='<?php echo $fieldNames[$i]; ?>'><?php echo $labelNames[$i]; ?>
+                                    </option>
+                                <?php }
+                            }
+                            $j++;
+                            echo "</select></td>";
+                            // echo "<td></td>";
+                        echo "</tr>";
+                        
+                    }
+                     
+                ?>
+            </tbody>
+        </table>
+        <button type='submit' style='width:60px; height:30px;'>Save</button>
     </form>
-</div>
-<input type="hidden" name="total_forms" value="<?php echo esc_attr($totalForms); ?>">
-            <!-- <input class="location_submit_button" type="submit" name='submitted' value="Submit"> -->
-            <input type="hidden" name="total_forms" value="<?php echo esc_attr($totalForms + 1);?>">
-            <button class="location_addmore_button" type="button" onclick="addMoreFields()">+</button>
-<!-- <h2>Mapped Form fields with GHL Fields</h2> -->
-<?php
-$map=array();
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    if (isset($_POST["field_value"])) {
-        if(isset($_POST["submitted"])){
-            foreach ($data as &$item) {
-                if (isset($item['label']) && $item['label'] === $_POST["form_field"]) {
-                    $query->ibs_ghl_update_form_mapping($id,$user_name,$user_email,$user_phone);     
-                    break;
-                }
+</div>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // $query->ibs_ghl_insert_field_mapping($id);
+    foreach($GHL_fields as $field){
+        if(isset($_POST["form_field$field"])){
+            if($field=='Name'){
+                $user_name=$_POST["form_field$field"];
             }
-            $encoded_json=json_encode($data);
-            $escapedJsonString = str_replace('"', '\"', $encoded_json);
-            // var_dump( $escapedJsonString);
-            $query->ibs_ghl_update_form_display_meta($id,$escapedJsonString);
+            else if($field=='Email'){
+                $user_email=$_POST["form_field$field"];
+            }
+            else if($field=='Phone'){
+                $user_phone=$_POST["form_field$field"];
+            }
+            
+        }
+    }
+    $query->update_field_mapping($id,$user_name,$user_email,$user_phone);
+    echo "<script type='text/javascript'>
+        window.location=document.location.href;
+        </script>";
+    
+}
+
+            // foreach ($data as &$item) {
+            //     if (isset($item['label']) && $item['label'] === $_POST["form_field"]) {
+            //         $query->ibs_ghl_update_form_mapping($id,$user_name,$user_email,$user_phone);     
+            //         break;
+            //     }
+            // }
+            // $encoded_json=json_encode($data);
+            // $escapedJsonString = str_replace('"', '\"', $encoded_json);
+            // // var_dump( $escapedJsonString);
+            // $query->ibs_ghl_update_form_display_meta($id,$escapedJsonString);
             // echo "<script type='text/javascript'>
             //         window.location=document.location.href;
             //       </script>";
             
-        }
+//         }
         
-    }
-}
+    
+// }
 ?>

@@ -21,18 +21,16 @@
 
     class Ghl_Wordpress_API {
         
-        public static function ibs_ghl_send_to_ghl($first_name,$last_name,$email,$phone){
-            var_dump($first_name,$last_name,$email,$phone);
+        public static function ibs_ghl_connect_to_ghl($name,$email,$phone){
+            var_dump($name,$email,$phone);
             $api_key = get_option('ibs_ghl_subaccount_api_key');
 
             if ($api_key) {
 				$endpoint = API_ENDPOINT;
-
-                $name_value = trim($first_name . ' ' . $last_name );
                 $tags='Hello';	
 
                 $contact_data = array(
-                        'name' => $name_value,
+                        'name' => $name,
                         'email' => $email,
                         'phone' => $phone,
                         'tags' => $tags,
