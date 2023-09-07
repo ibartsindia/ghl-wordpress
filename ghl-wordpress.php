@@ -48,6 +48,11 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-ghl-wordpress-query.p
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-ghl-wordpress-api.php';
 
 /**
+ * The class responsible for defining many helper functions
+ */
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-ghl-wordpress-helper.php';
+
+/**
  * The class responsible for defining all constants
  */
 require_once plugin_dir_path( __FILE__ ) . 'definition.php';

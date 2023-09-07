@@ -2,26 +2,19 @@
 
 <?php
 $query=new Ghl_Wordpress_Query();
-$jsonArray=$query->ibs_ghl_get_form_meta_display($id);
-$data = json_decode(stripslashes($jsonArray), true);
 
-if ($data !== null) {
-    $labelNames = [];
-    $fieldNames=[];
-    foreach ($data as $item) {
-        if (isset($item['label'])) {
-            $labelNames[] = $item['label'];
-            $fieldNames[] = $item['name'];
-        }
-    }
-    // print_r($labelNames);
-} 
-else {
-    echo "Invalid JSON format.";
-}
+//helper function
+$helper= new Ghl_Wordpress_Helper();
+$get_label=$helper->get_label_name($id);
+$labelNames=$get_label[0];
+$fieldNames=$get_label[1];
+
+//get the mapped data
 $form_mapping_data=$query->ibs_ghl_get_form_mapping_data($id);
-$mapName=array($form_mapping_data[0]->user_name,$form_mapping_data[0]->user_email,$form_mapping_data[0]->user_phone);
-// var_dump($mapName);
+$decoded_mapped_data=json_decode($form_mapping_data[0]->mapped_data);
+
+$mapName=array($decoded_mapped_data->name,$decoded_mapped_data->email,$decoded_mapped_data->phone);
+
 $GHL_fields=array("Name","Email","Phone");
 
 ?>

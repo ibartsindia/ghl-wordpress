@@ -204,6 +204,8 @@ class Ghl_Wordpress {
 		//action hook for searching the form in trash 
 		$this->loader->add_action( 'wp_ajax_ibs_ghl_form_entries', $plugin_admin, 'ibs_ghl_form_entries_callback' );
 		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_form_entries', $plugin_admin, 'ibs_ghl_form_entries_callback');
+
+
 		
 	}
 	
@@ -222,6 +224,11 @@ class Ghl_Wordpress {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		
         $this->loader->add_shortcode( 'ghl_wordpress', $plugin_public, 'ibs_ghl_wordpress_shortcode_callback' );
+
+		//action hook for getting form entry data 
+		$this->loader->add_action( 'wp_ajax_ibs_ghl_get_form_data', $plugin_public, 'ibs_ghl_get_form_data_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ibs_ghl_get_form_data', $plugin_public, 'ibs_ghl_get_form_data_callback');
+		
 
 	}
 

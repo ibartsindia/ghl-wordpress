@@ -104,6 +104,19 @@ class Ghl_Wordpress_Public {
 
 		wp_enqueue_script( $this->plugin_name.'-form-builder-ui', plugin_dir_url( __FILE__ ) . 'js/form-builder.min.js', array( 'jquery' ), $this->version, true );
 
+		wp_enqueue_script( $this->plugin_name.'-ajax-script-ui', plugin_dir_url( __FILE__ ) . 'js/ghl-wordpress-public-ajax.js', array('jquery'), $this->version, false );
+        
+
+        wp_localize_script(
+            $this->plugin_name.'-ajax-script-ui',
+            'ajax_data',
+            array(
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+            ),
+            $this->version,
+            false
+        );
+
 	}
 	
 	public function ibs_ghl_wordpress_shortcode_callback( $atts ) {
@@ -126,5 +139,20 @@ class Ghl_Wordpress_Public {
         }
     
     }
+
+	public function ibs_ghl_get_form_data_callback(){
+		if($_POST['action']=='ibs_ghl_get_form_data'){
+
+            $data=$_POST['data'];
+			$id=$_POST['id'];
+			
+			$query = new Ghl_Wordpress_Query();
+			$query->insert_form_entries($id,json_encode($data));
+            // $page_url=get_admin_url()."admin.php?page=".FORM_ENTRIES;
+            $response=true;
+            wp_send_json($response);
+            wp_die();
+        }
+	}
 
 }

@@ -115,9 +115,7 @@ class Ghl_Wordpress_Activator {
             $sql = "CREATE TABLE $table_name (
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 form_id INT(11) UNIQUE,
-                user_name VARCHAR(50) ,
-                user_email varchar(50),
-                user_phone varchar(50),
+                mapped_data LONGTEXT,
                 PRIMARY KEY (id)
             ) $charset_collate;";
         
