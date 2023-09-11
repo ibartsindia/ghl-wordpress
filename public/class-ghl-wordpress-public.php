@@ -155,12 +155,7 @@ class Ghl_Wordpress_Public {
 				//get the mapped data
 				$form_mapping_data=$query->ibs_ghl_get_form_mapping_data($id);
 				$decoded_mapped_data=json_decode($form_mapping_data[0]->mapped_data);
-
-				
-				foreach($decoded_mapped_data as $field => $value){
-					$mapName[$field]=$value;
-				}
-				
+	
 				$contact_data=array();
 				foreach ($data as $field_name => $field_value) {
 					// Sanitize field name and value
@@ -174,8 +169,10 @@ class Ghl_Wordpress_Public {
 						}
 					}
 				}
+				var_dump($contact_data);
 				$api=new Ghl_Wordpress_API();
-				$api->ibs_ghl_create_contact($contact_data);
+				// $api->ibs_ghl_create_contact($contact_data);
+
 			}
             // $page_url=get_admin_url()."admin.php?page=".FORM_ENTRIES;
 			

@@ -21,7 +21,7 @@ foreach($decoded_mapped_data as $decodedField => $decodedValue){
 
 
 //set GHL dropdown fields
-$GHL_fields=array("name","email","phone","dateOfBirth","state");
+$GHL_fields=array("name","email","phone");
 ?>
 <div >
     <h2 style="margin-right:40px;">Field Mapping </h2>

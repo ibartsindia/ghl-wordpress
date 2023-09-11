@@ -42,18 +42,7 @@ class Ghl_Wordpress_Query {
         // Check if the insertion was successful
         if ($wpdb->insert_id) {
             return $wpdb->insert_id;
-        }
-        
-        
-    }
-    public function ibs_ghl_insert_field_mapping($form_id){
-        global $wpdb;
-        $table_name2=$wpdb->prefix . 'ibs_ghl_field_mapping';
-        $newData = array(
-            'form_id'=>$form_id,
-            'mapping_data' => '',
-        );
-        $wpdb->insert($table_name2, $newData);
+        }   
     }
     
     public function ibs_ghl_update_form($form_id, $data) {
@@ -313,7 +302,6 @@ class Ghl_Wordpress_Query {
         $table_name = $wpdb->prefix . 'ibs_ghl_field_mapping';
         
         $where = array('form_id' => $id);
-    
         $data=array('mapped_data'=>$jsonEncode
                     );
         
