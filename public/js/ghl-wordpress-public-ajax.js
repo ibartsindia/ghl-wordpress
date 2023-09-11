@@ -2,17 +2,22 @@
 	'use strict';
 	 
 	 $( window ).load(function() {
-        // var formButtons = document.querySelectorAll('.form-button');
-        // formButtons.forEach(function(submit) {
-        // var formId = $(this).attr("id");
-            // const event = new Event("start");
-            // document.dispatchEvent(event);
-            // var formId=id;
 
+            //getting the form id from the class of the form
+            var form1 = document.getElementsByClassName('getform')[0];
+            var formId=(form1['id']);
+            
+            const inputString = formId;
+            for (let i = 0; i < inputString.length; i++) {
+                const char = inputString[i];
+                if (char >= '0' && char <= '9') {
+                  var number=char; // Output: "1"
+                  break; // Exit the loop after finding the first digit
+                }
+            }
+            console.log(number);
 
-
-            var form = document.getElementById('ibs-ghl-form1');
-            // Add a submit event listener to the form
+            var form = document.getElementById(formId);
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
 
@@ -30,8 +35,9 @@
                 }
                 formData=formSerializeArrToJson($(this).serializeArray());
                 
-                // You now have all the form values in an array
+                // We now have all the form values in an array
                 console.log(formData);
+                
                 $.ajax({
                     url: ajax_data.ajax_url,
                     type: 'POST',
@@ -39,7 +45,7 @@
                     data:{
                         action: 'ibs_ghl_get_form_data',
                         data: formData,
-                        id:1
+                        id:number
                     },
                     
                     // contentType: 'application/json',

@@ -1,5 +1,7 @@
 <?php 
 class Ghl_Wordpress_Helper {
+    
+    //getting the field names and label names
     public function get_label_name($id){
         $query=new Ghl_Wordpress_Query();
         $jsonArray=$query->ibs_ghl_get_form_meta_display($id);
@@ -14,7 +16,6 @@ class Ghl_Wordpress_Helper {
                     $fieldNames[] = $item['name'];
                 }
             }
-            // print_r($labelNames);
         } 
         else {
             echo "Invalid JSON format.";

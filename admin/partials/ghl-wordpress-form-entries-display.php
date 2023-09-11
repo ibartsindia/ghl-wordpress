@@ -1,6 +1,8 @@
+<!-- Displaying the Entries of the database save in the particular form  -->
 <?php
 $id=$_GET['id'];
 
+//helper function
 $helper= new Ghl_Wordpress_Helper();
 $get_label=$helper->get_label_name($id);
 $labelNames=$get_label[0];
@@ -8,6 +10,7 @@ $fieldNames=$get_label[1];
 
 $query=new Ghl_Wordpress_Query();
 
+//Get the form name as per the ID
 $form_name=$query->ibs_ghl_get_form_name($id);
 
 echo "<h1>".$form_name." Entries </h1> ";
@@ -20,38 +23,34 @@ echo "<h1>".$form_name." Entries </h1> ";
             <th>Form ID</th>
             <th>Field Name</th>
             <th>Field Value</th>
-            
         </tr>
     </thead>
     <tbody>
     
-        <?php 
+    <?php
+        //get the form entries data 
+        $JSON=$query->ibs_ghl_get_form_entries($id);
+        foreach ($JSON as $entry){
+            $field_name_show=array();
+            $field_value_show=array();
+            echo '<tr>';
+            echo '<td>' . esc_html($entry->id).'</td>';
+            echo '<td>' . esc_html($entry->form_id).'</td>';
             
-            
-            $JSON=$query->ibs_ghl_get_form_entries($id);
-
-            foreach ($JSON as $entry){
-                $field_name_show=array();
-                $field_value_show=array();
-                echo '<tr>';
-                echo '<td>' . esc_html($entry->id).'</td>';
-                echo '<td>' . esc_html($entry->form_id).'</td>';
-                
-                
-                $decodedEntries = json_decode($entry->entries, true);
-                
-                foreach ($decodedEntries as $field => $value) {                
-                    if ($field=='Submit'){
-                        continue;
-                    }
-                    else{
-                        for($j=0;$j<3;$j++){
+            //decoding the entries json 
+            $decodedEntries = json_decode($entry->entries, true);
+            foreach ($decodedEntries as $field => $value) {                
+                if ($field=='Submit'){
+                    continue;
+                }
+                else{
+                        for($j=0;$j<count($labelNames);$j++){
                             if($field == $fieldNames[$j]){
-                                    array_push($field_name_show,$labelNames[$j]);
-                                    array_push($field_value_show,$value);
-                                    break;
-                                }
+                                array_push($field_name_show,$labelNames[$j]);
+                                array_push($field_value_show,$value);
+                                break;
                             }
+                        }
                     }
                             
                 }

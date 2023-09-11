@@ -33,6 +33,7 @@
 	 $( window ).load(function() {
 	    const fbTemplate = document.getElementById('build-wrap');
 		
+		//disabling the fields of the form-builder
 		var options = {
 			disableFields: ['autocomplete','checkbox-group','date','file','number','radio-group','select','starRating'],
 			fieldRemoveWarn: true,

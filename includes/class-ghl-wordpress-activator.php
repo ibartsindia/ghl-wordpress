@@ -57,8 +57,7 @@ class Ghl_Wordpress_Activator {
         
             require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
             dbDelta($sql);
-        }
-        
+        }  
 	}
 	
 	public static function ibs_ghl_create_form_meta_table() {
@@ -81,8 +80,7 @@ class Ghl_Wordpress_Activator {
         
             require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
             dbDelta($sql);
-        }
-        
+        }  
 	}
 
     public static function ibs_ghl_form_entries(){

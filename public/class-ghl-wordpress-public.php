@@ -119,6 +119,7 @@ class Ghl_Wordpress_Public {
 
 	}
 	
+	//create shortcode to render the form in the frontend page
 	public function ibs_ghl_wordpress_shortcode_callback( $atts ) {
 	    
     	$default = array(
@@ -140,6 +141,7 @@ class Ghl_Wordpress_Public {
     
     }
 
+	// getting the form entries data entered by the user in the frontend page and send to api
 	public function ibs_ghl_get_form_data_callback(){
 		if($_POST['action']=='ibs_ghl_get_form_data'){
 
@@ -147,8 +149,32 @@ class Ghl_Wordpress_Public {
 			$id=$_POST['id'];
 			
 			$query = new Ghl_Wordpress_Query();
-			$query->insert_form_entries($id,json_encode($data));
+			$insert_result=$query->insert_form_entries($id,json_encode($data));
+			if($insert_result){
+				
+				$helper= new Ghl_Wordpress_Helper();
+				$get_label=$helper->get_label_name($id);
+				$labelNames=$get_label[0];
+				$fieldNames=$get_label[1];
+				
+				$contact_data=array();
+				foreach ($data as $field_name => $field_value) {
+					// Sanitize field name and value
+					$sanitized_field_name = sanitize_text_field($field_name);
+					$sanitized_field_value = sanitize_text_field($field_value);
+
+					for ($j=0;$j<count($labelNames);$j++){
+						if($fieldNames[$j]==$sanitized_field_name){
+							$contact_data[$labelNames[$j]]=$sanitized_field_value;
+							break;
+						}
+					}
+				}
+				$api=new Ghl_Wordpress_API();
+				$api->ibs_ghl_create_contact($contact_data);
+			}
             // $page_url=get_admin_url()."admin.php?page=".FORM_ENTRIES;
+			
             $response=true;
             wp_send_json($response);
             wp_die();

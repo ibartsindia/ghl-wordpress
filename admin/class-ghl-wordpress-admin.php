@@ -21,7 +21,6 @@
  * @author     iB Softs <support@ibsofts.com>
  */
 class Ghl_Wordpress_Admin {
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -74,7 +73,6 @@ class Ghl_Wordpress_Admin {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ghl-wordpress-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -83,7 +81,6 @@ class Ghl_Wordpress_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -102,7 +99,6 @@ class Ghl_Wordpress_Admin {
 		
 		wp_enqueue_script( $this->plugin_name.'-ajax-script', plugin_dir_url( __FILE__ ) . 'js/ghl-wordpress-ajax.js', array('jquery'), $this->version, false );
         
-
         wp_localize_script(
             $this->plugin_name.'-ajax-script',
             'ajax_data',
@@ -112,7 +108,6 @@ class Ghl_Wordpress_Admin {
             $this->version,
             false
         );
-
 	}
 	
 	/**
@@ -182,8 +177,7 @@ class Ghl_Wordpress_Admin {
             'manage_options',
             'ghl-wordpress-field-settings',
 			array($this, 'ibs_ghl_field_settings_display_callback')
-        );
-             
+        );      
 	}
 	
 	/**
@@ -269,7 +263,7 @@ class Ghl_Wordpress_Admin {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ghl-wordpress-add-form.php';
 	}
     /**
-	 * Displaying GHL forms entries
+	 * Displaying GHL forms field-mapping settings display
 	 * 
 	 * @since   1.0.0
 	 */
@@ -356,6 +350,8 @@ class Ghl_Wordpress_Admin {
         $query = new Ghl_Wordpress_Query();
         $All=0;
         $Trash=1;
+        
+        //Showing the forms as per searched,trashed and not trashed
         if (isset($_GET['filter']) && $_GET['filter'] == 'trash' && isset($_GET['search']) ) {
             $form_name= sanitize_text_field($_GET['search']);
             $data=$query->ibs_ghl_get_all_forms($form_name,$Trash);

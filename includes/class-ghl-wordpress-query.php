@@ -279,6 +279,7 @@ class Ghl_Wordpress_Query {
         return $form_name[0]->title;
     }
 
+    //getting form entries as per id
     public function ibs_ghl_get_form_entries($id){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
@@ -286,6 +287,8 @@ class Ghl_Wordpress_Query {
         $json=$wpdb->get_results($wpdb->prepare("Select * from $table_name where form_id= %s ",$id));
         return $json;
     }
+
+    //counting the no of entries are there as per form ID
     public function ibs_ghl_count_form_entries($id){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
@@ -293,6 +296,8 @@ class Ghl_Wordpress_Query {
         $count=$wpdb->get_var($wpdb->prepare("Select Count(*) from $table_name where form_id= %s ",$id));
         return $count;
     }
+
+    //getting form meta data saved in database 
     public function ibs_ghl_get_form_meta_display($id){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form_meta';
@@ -301,6 +306,7 @@ class Ghl_Wordpress_Query {
         return $display_meta;
     }
     
+    //updating field mapping as per FormID
     public function update_field_mapping($id,$user_name,$user_email,$user_phone){
         global $wpdb;
 
@@ -314,6 +320,7 @@ class Ghl_Wordpress_Query {
         $wpdb->update($table_name, $data, $where);
     }
 
+    //getting form mapped data from the database as per form ID
     public function ibs_ghl_get_form_mapping_data($id){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_field_mapping';
@@ -322,11 +329,13 @@ class Ghl_Wordpress_Query {
         
         return $mapping_data;
     }
+
+    //Inserting entries of the form entered by the user in frontend page
     public function insert_form_entries($id,$serialized_array){
         global $wpdb;
         $table_name = $wpdb->prefix . 'ibs_ghl_form_entries';
 
-        $wpdb->insert(
+        $insert_result=$wpdb->insert(
             $table_name,
             array(
                   'form_id'=> $id,
@@ -336,7 +345,7 @@ class Ghl_Wordpress_Query {
                   '%s',
               )
             );
-          
+        return $insert_result;  
     }
 
     
