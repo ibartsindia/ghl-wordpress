@@ -307,13 +307,13 @@ class Ghl_Wordpress_Query {
     }
     
     //updating field mapping as per FormID
-    public function update_field_mapping($id,$user_name,$user_email,$user_phone){
+    public function update_field_mapping($id,$jsonEncode){
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'ibs_ghl_field_mapping';
         
         $where = array('form_id' => $id);
-        $jsonEncode=json_encode(array('name'=>$user_name,'email'=>$user_email,'phone'=>$user_phone));
+    
         $data=array('mapped_data'=>$jsonEncode
                     );
         

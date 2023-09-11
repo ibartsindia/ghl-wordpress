@@ -155,12 +155,11 @@ class Ghl_Wordpress_Public {
 				//get the mapped data
 				$form_mapping_data=$query->ibs_ghl_get_form_mapping_data($id);
 				$decoded_mapped_data=json_decode($form_mapping_data[0]->mapped_data);
-				$mapName=array($decoded_mapped_data->name,$decoded_mapped_data->email,$decoded_mapped_data->phone);
 
-				//helper function
-				$helper= new Ghl_Wordpress_Helper();
-				$get_label=$helper->get_label_name($id);
-				$labelNames=$get_label[0];
+				
+				foreach($decoded_mapped_data as $field => $value){
+					$mapName[$field]=$value;
+				}
 				
 				$contact_data=array();
 				foreach ($data as $field_name => $field_value) {
@@ -168,9 +167,9 @@ class Ghl_Wordpress_Public {
 					$sanitized_field_name = sanitize_text_field($field_name);
 					$sanitized_field_value = sanitize_text_field($field_value);
 
-					for ($j=0;$j<count($mapName);$j++){
-						if($mapName[$j]==$sanitized_field_name){
-							$contact_data[$labelNames[$j]]=$sanitized_field_value;
+					foreach($decoded_mapped_data as $mappedField=>$mappedValue){
+						if($mappedValue==$sanitized_field_name){
+							$contact_data[$mappedField]=$sanitized_field_value;
 							break;
 						}
 					}

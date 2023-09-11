@@ -19,10 +19,10 @@ echo "<h1>".$form_name." Entries </h1> ";
 <table class="wp-list-table widefat striped">
     <thead>
         <tr>
-            <th>Entry ID</th>
-            <th>Form ID</th>
-            <th>Field Name</th>
-            <th>Field Value</th>
+            <th style="width:132px;">Entry ID</th>
+            <th style="width:162px;">Form ID</th>
+            <th style="width:12px;">Field Name</th>
+            <th style="width:232px;">Field Value</th>
         </tr>
     </thead>
     <tbody>

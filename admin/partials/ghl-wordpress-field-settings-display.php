@@ -13,10 +13,15 @@ $fieldNames=$get_label[1];
 //get the mapped data
 $form_mapping_data=$query->ibs_ghl_get_form_mapping_data($id);
 $decoded_mapped_data=json_decode($form_mapping_data[0]->mapped_data);
-$mapName=array($decoded_mapped_data->name,$decoded_mapped_data->email,$decoded_mapped_data->phone);
+$mapName=array();
+
+foreach($decoded_mapped_data as $decodedField => $decodedValue){
+    array_push($mapName,$decodedValue);
+}
+
 
 //set GHL dropdown fields
-$GHL_fields=array("Name","Email","Phone");
+$GHL_fields=array("name","email","phone","dateOfBirth","state");
 ?>
 <div >
     <h2 style="margin-right:40px;">Field Mapping </h2>
@@ -33,7 +38,7 @@ $GHL_fields=array("Name","Email","Phone");
                     $j=0;
                     foreach($GHL_fields as $field){//settings page dropdown
                         echo "<tr>";
-                            echo "<td>$field</td>";
+                            echo "<td>".esc_html(ucfirst($field))."</td>";
                             ?>
                             <td><select name='form_field<?php echo $field ?>' id='form_field'>
                             <?php
@@ -68,20 +73,12 @@ $GHL_fields=array("Name","Email","Phone");
 
 //Save in mapped data in database 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $update_mapped_data=array();
     foreach($GHL_fields as $field){
-        if(isset($_POST["form_field$field"])){
-            if($field=='Name'){
-                $user_name=$_POST["form_field$field"];
-            }
-            else if($field=='Email'){
-                $user_email=$_POST["form_field$field"];
-            }
-            else if($field=='Phone'){
-                $user_phone=$_POST["form_field$field"];
-            }  
-        }
+        $update_mapped_data[$field]=$_POST["form_field$field"];
     }
-    $query->update_field_mapping($id,$user_name,$user_email,$user_phone);
+    $jsonEncode=json_encode($update_mapped_data);
+    $query->update_field_mapping($id,$jsonEncode);
     
     //for a single reload 
     echo "<script type='text/javascript'>

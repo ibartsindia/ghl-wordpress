@@ -24,7 +24,7 @@
         public static function ibs_ghl_create_contact($contact_data){
             
             $api_key = get_option('ibs_ghl_subaccount_api_key');
-            // var_dump($contact_data);
+            var_dump($contact_data);
             if ($api_key) {
 				// $endpoint = API_ENDPOINT;
 
